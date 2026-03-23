@@ -18,13 +18,10 @@ See [contribution guide](docs/contribution_guide.md).
 ## Usage
 
 ```go
-import btcecc "github.com/guibressan/btcecc.git"
+import "github.com/guibressan/secp256k1"
 
-ctx := btcecc.ContextCreate(btcecc.ContextNone)
-defer ctx.Destroy()
-
-pub, ok := btcecc.ECPubKeyParse(ctx, pubkeyBytes)
-sig, ok := btcecc.ECDSASignatureParseCompact(ctx, sigBytes)
-btcecc.ECDSASignatureNormalize(ctx, sig)
-valid := btcecc.ECDSAVerify(ctx, sig, msgHashBytes, pub)
+pub, ok := secp256k1.ECPubKeyParse(pubkeyBytes)
+sig, ok := secp256k1.ECDSASignatureParseCompact(sigBytes)
+secp256k1.ECDSASignatureNormalize(sig)
+valid := secp256k1.ECDSAVerify(sig, msgHashBytes, pub)
 ```
