@@ -8,7 +8,7 @@ You should always use this guide in this project.
 the file `doc.go`.
 
 * All exported symbols should be commented starting with the symbol name 
-  followed by a phrase containing only complete sentences that explains the 
+  followed by a phrase containing only complete sentences that explain the 
   **why** of this symbol, not the **what** — be it a constant, variable, type,
   function, method, etc.
 
@@ -111,15 +111,15 @@ for condition &&
 }
 ```
 
-## Submiting Commits
+## Submitting Commits
 * Max line length should be of 80 - 4 = 76 columns
 * Commits must start with the subject of the commit, starting with the name of
   the subsystem or subsystems modified, followed by a short description of the
   commit
-* If multiple subsistems were modified, separate the names with	`,`
+* If multiple subsystems were modified, separate the names with	`,`
 * After the subject paragraph, there must be an empty line, and then, the full
   description of the commit
-* Always run the test suite before commiting
+* Always run the test suite before committing
 * Every function added should be covered by tests
 * No commit can break tests
 
@@ -138,10 +138,10 @@ Complete description
 ```
 
 ## Testing
-* The command `go test .` must always work, tests that that need setup should
-  be skipped when the dependencies are not met, for example: missing api key or
+* The command `go test .` must always work, tests that need setup should be
+  skipped when the dependencies are not met, for example: missing API key or
   missing database connection configuration
-* Use table tests when applyable, example:
+* Use table tests when applicable, example:
 ```go
 func TestAdd(t *testing.T) {
 	tests := []struct{
