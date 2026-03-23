@@ -1,6 +1,6 @@
 // Package btcecc wraps libsecp256k1 to take advantage of its highly optimized
 // ECDSA signature verification for Bitcoin transactions.
-package btcecc
+package secp256k1
 
 /*
 #cgo CFLAGS: -I${SRCDIR} -I${SRCDIR}/secp256k1/include -I${SRCDIR}/secp256k1/src -O2

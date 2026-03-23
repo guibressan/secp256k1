@@ -1,4 +1,4 @@
-package btcecc
+package secp256k1
 
 import (
 	"testing"

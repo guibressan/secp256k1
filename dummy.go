@@ -4,7 +4,7 @@
 // never-satisfied "dummy" build tag so they are never compiled), the vendor
 // command includes them.
 //go:build dummy
-package btcecc
+package secp256k1
 
 import (
 	_ "github.com/guibressan/secp256k1/secp256k1/src"
