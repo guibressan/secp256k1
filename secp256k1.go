@@ -1,4 +1,4 @@
-// Package btcecc wraps libsecp256k1 to take advantage of its highly optimized
+// Package secp256k1 wraps libsecp256k1 to take advantage of its highly optimized
 // ECDSA signature verification for Bitcoin transactions.
 package secp256k1
 
