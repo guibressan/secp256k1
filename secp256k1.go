@@ -21,12 +21,12 @@ type PubKey struct {
 	inner C.secp256k1_pubkey
 }
 
-func ECPubKeyParse(input []byte) (*PubKey, bool) {
+func ECPubKeyParse(pubkey []byte) (*PubKey, bool) {
 	pub := &PubKey{}
 	ret := C.secp256k1_ec_pubkey_parse(
 		ctx, &pub.inner,
-		(*C.uchar)(unsafe.Pointer(&input[0])),
-		C.size_t(len(input)),
+		(*C.uchar)(unsafe.Pointer(&pubkey[0])),
+		C.size_t(len(pubkey)),
 	)
 	return pub, ret == 1
 }
@@ -35,11 +35,11 @@ type Signature struct {
 	inner C.secp256k1_ecdsa_signature
 }
 
-func ECDSASignatureParseCompact(input []byte) (*Signature, bool) {
+func ECDSASignatureParseCompact(compactSig []byte) (*Signature, bool) {
 	sig := &Signature{}
 	ret := C.secp256k1_ecdsa_signature_parse_compact(
 		ctx, &sig.inner,
-		(*C.uchar)(unsafe.Pointer(&input[0])),
+		(*C.uchar)(unsafe.Pointer(&compactSig[0])),
 	)
 	return sig, ret == 1
 }
