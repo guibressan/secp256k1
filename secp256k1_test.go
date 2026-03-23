@@ -1,12 +1,8 @@
 package btcecc
 
 import (
-	"fmt"
 	"testing"
-	"time"
 )
-
-var count = 50000
 
 func TestECDSAVerify(t *testing.T) {
 	pubkeyBytes := []byte{
@@ -51,7 +47,7 @@ func TestECDSAVerify(t *testing.T) {
 	}
 }
 
-func TestECDSAVerifyThroughput(t *testing.T) {
+func BenchmarkECDSAVerify(b *testing.B) {
 	pubkeyBytes := []byte{
 		0x04, 0xb0, 0xe2, 0xc8, 0x79, 0xe4, 0xda, 0xf7, 0xb9, 0xab,
 		0x68, 0x35, 0x02, 0x28, 0xc1, 0x59, 0x76, 0x66, 0x76, 0xa1,
@@ -79,24 +75,19 @@ func TestECDSAVerifyThroughput(t *testing.T) {
 
 	pub, ok := ECPubKeyParse(pubkeyBytes)
 	if !ok {
-		t.Fatal("failed to parse pubkey")
+		b.Fatal("failed to parse pubkey")
 	}
 
 	sig, ok := ECDSASignatureParseCompact(sigBytes)
 	if !ok {
-		t.Fatal("failed to parse compact signature")
+		b.Fatal("failed to parse compact signature")
 	}
 
 	ECDSASignatureNormalize(sig)
 
-	start := time.Now()
-	for range count {
+	for b.Loop() {
 		if !ECDSAVerify(sig, sighashBytes, pub) {
-			t.Fatal("signature verification failed")
+			b.Fatal("signature verification failed")
 		}
 	}
-	elapsed := time.Since(start).Nanoseconds()
-
-	fmt.Printf("tot %dns, ops %d, ns/op %d\n", elapsed, count,
-		elapsed/int64(count))
 }
