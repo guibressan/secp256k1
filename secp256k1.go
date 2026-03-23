@@ -27,6 +27,7 @@ type PubKey struct {
 
 // ECPubKeyParse parses a compressed or uncompressed public key so it can be
 // reused across multiple ECDSAVerify calls without re-parsing each time.
+// pubkey is expected to be non-empty.
 func ECPubKeyParse(pubkey []byte) (*PubKey, bool) {
 	pub := &PubKey{}
 	ret := C.secp256k1_ec_pubkey_parse(
@@ -45,6 +46,7 @@ type Signature struct {
 
 // ECDSASignatureParseCompact parses a 64-byte compact-encoded ECDSA signature
 // so it can be normalized and verified independently of parsing.
+// compactSig is expected to be exactly 64 bytes.
 func ECDSASignatureParseCompact(compactSig []byte) (*Signature, bool) {
 	sig := &Signature{}
 	ret := C.secp256k1_ecdsa_signature_parse_compact(
@@ -56,6 +58,7 @@ func ECDSASignatureParseCompact(compactSig []byte) (*Signature, bool) {
 
 // ECDSASignatureNormalize converts a signature to lower-S form to ensure
 // a canonical representation, preventing signature malleability issues.
+// sig is expected to be non-nil.
 func ECDSASignatureNormalize(sig *Signature) bool {
 	ret := C.secp256k1_ecdsa_signature_normalize(
 		ctx, &sig.inner, &sig.inner,
@@ -63,15 +66,11 @@ func ECDSASignatureNormalize(sig *Signature) bool {
 	return ret == 1
 }
 
-// ECDSAVerify checks that sig is a valid ECDSA signature of msgHash (32 bytes)
-// under pub, enabling Bitcoin transaction input validation against a known
-// public key.
+// ECDSAVerify checks that sig is a valid ECDSA signature of msgHash under pub,
+// enabling Bitcoin transaction input validation against a known public key.
+// sig and pub are expected to be non-nil. msgHash is expected to be 32 bytes.
 func ECDSAVerify(sig *Signature, msgHash []byte,
 	pub *PubKey) bool {
-
-	if len(msgHash) != 32 {
-		return false
-	}
 
 	ret := C.secp256k1_ecdsa_verify(
 		ctx, &sig.inner,
