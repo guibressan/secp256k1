@@ -69,6 +69,10 @@ func ECDSASignatureNormalize(sig *Signature) bool {
 func ECDSAVerify(sig *Signature, msgHash []byte,
 	pub *PubKey) bool {
 
+	if len(msgHash) != 32 {
+		return false
+	}
+
 	ret := C.secp256k1_ecdsa_verify(
 		ctx, &sig.inner,
 		(*C.uchar)(unsafe.Pointer(&msgHash[0])),
