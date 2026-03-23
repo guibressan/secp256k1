@@ -1,4 +1,4 @@
-# btcecc
+# secp256k1
 
 Go CGO bindings for [libsecp256k1](https://github.com/bitcoin-core/secp256k1),
 the elliptic curve library used by Bitcoin.
@@ -10,6 +10,10 @@ required. A plain `go build` or `go test` is sufficient.
 
 - Go 1.26+
 - A C compiler
+
+## Contributing
+
+See [contribution guide](docs/contribution_guide.md).
 
 ## Usage
 
@@ -24,4 +28,3 @@ sig, ok := btcecc.ECDSASignatureParseCompact(ctx, sigBytes)
 btcecc.ECDSASignatureNormalize(ctx, sig)
 valid := btcecc.ECDSAVerify(ctx, sig, msgHashBytes, pub)
 ```
-
