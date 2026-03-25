@@ -3,12 +3,14 @@
 package secp256k1
 
 /*
-#cgo CFLAGS: -I${SRCDIR} -I${SRCDIR}/secp256k1/include -I${SRCDIR}/secp256k1/src -O2
+#cgo CFLAGS: -I${SRCDIR} -I${SRCDIR}/secp256k1/include -I${SRCDIR}/secp256k1/src -I${SRCDIR}/secp256k1/contrib -O2
 
 #include "secp256k1/src/secp256k1.c"
 #include "secp256k1/src/precomputed_ecmult_gen.c"
 #include "secp256k1/src/precomputed_ecmult.c"
+#include "secp256k1/contrib/lax_der_parsing.c"
 #include "secp256k1.h"
+#include "secp256k1/contrib/lax_der_parsing.h"
 */
 import "C"
 import "unsafe"
@@ -123,6 +125,20 @@ func ECDSASignatureParseDER(derSig []byte) (*Signature, bool) {
 		ctx, &sig.inner,
 		(*C.uchar)(unsafe.Pointer(&derSig[0])),
 		C.size_t(len(derSig)),
+	)
+	return sig, ret == 1
+}
+
+// ECDSASignatureParseBER parses a lax DER-encoded ECDSA signature to
+// enable validation of pre-BIP66 Bitcoin transactions that use BER
+// encodings not accepted by the strict DER parser.
+// berSig is expected to be non-empty.
+func ECDSASignatureParseBER(berSig []byte) (*Signature, bool) {
+	sig := &Signature{}
+	ret := C.ecdsa_signature_parse_der_lax(
+		ctx, &sig.inner,
+		(*C.uchar)(unsafe.Pointer(&berSig[0])),
+		C.size_t(len(berSig)),
 	)
 	return sig, ret == 1
 }

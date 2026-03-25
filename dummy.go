@@ -7,6 +7,7 @@
 package secp256k1
 
 import (
-	_ "github.com/guibressan/secp256k1/secp256k1/src"
+	_ "github.com/guibressan/secp256k1/secp256k1/contrib"
 	_ "github.com/guibressan/secp256k1/secp256k1/include"
+	_ "github.com/guibressan/secp256k1/secp256k1/src"
 )
