@@ -1,3 +1,4 @@
 c_example/build
 **/*.swp
 **/.*.swp
+tmp
