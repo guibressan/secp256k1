@@ -700,7 +700,7 @@ func BenchmarkECDSAVerify(b *testing.B) {
 	}
 }
 
-func TestIsValidDERSignature(t *testing.T) {
+func TestECDSASignatureDERFormatCheck(t *testing.T) {
 	// Same validDER as in TestECDSASignatureParseDER.
 	validDER := []byte{
 		0x30, 0x46, 0x02, 0x21, 0x00, 0xd2, 0x34, 0x59, 0xd0, 0x3e,
@@ -776,13 +776,13 @@ func TestIsValidDERSignature(t *testing.T) {
 		{sEqualsN, false},
 	}
 	for i, test := range tests {
-		if IsValidDERSignature(test.sig) != test.valid {
+		if ECDSASignatureDERFormatCheck(test.sig) != test.valid {
 			t.Fatal("test", i, "unexpected result")
 		}
 	}
 }
 
-func TestIsValidBERSignature(t *testing.T) {
+func TestECDSASignatureBERFormatCheck(t *testing.T) {
 	validDER := []byte{
 		0x30, 0x46, 0x02, 0x21, 0x00, 0xd2, 0x34, 0x59, 0xd0, 0x3e,
 		0xd7, 0xe9, 0x51, 0x1a, 0x47, 0xd1, 0x32, 0x92, 0xd3, 0x43,
@@ -822,7 +822,7 @@ func TestIsValidBERSignature(t *testing.T) {
 		{[]byte{0x30, 0x03, 0x02, 0x01, 0x01}, false},
 	}
 	for i, test := range tests {
-		if IsValidBERSignature(test.sig) != test.valid {
+		if ECDSASignatureBERFormatCheck(test.sig) != test.valid {
 			t.Fatal("test", i, "unexpected result")
 		}
 	}

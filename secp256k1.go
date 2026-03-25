@@ -235,16 +235,17 @@ func scalarInRange(v []byte) bool {
 	return bytes.Compare(v, orderN[:]) < 0
 }
 
-// IsValidDERSignature reports whether sig is a valid strict DER-encoded ECDSA
-// signature as required by BIP66. It checks both encoding rules and that R and
-// S are in [1, n-1]; it does not verify the signature against a public key.
+// ECDSASignatureDERFormatCheck reports whether sig is a valid strict
+// DER-encoded ECDSA signature as required by BIP66. It checks both encoding
+// rules and that R and S are in [1, n-1]; it does not verify the signature
+// against a public key.
 //
 // The expected encoding format is:
 //
 //	0x30 <len> 0x02 <rlen> <R> 0x02 <slen> <S>
 //
 // where R and S are minimally encoded, unsigned, big-endian integers.
-func IsValidDERSignature(sig []byte) bool {
+func ECDSASignatureDERFormatCheck(sig []byte) bool {
 	// Valid DER signatures are between 8 and 72 bytes.
 	n := len(sig)
 	if n < 8 || n > 72 {
@@ -295,10 +296,10 @@ func IsValidDERSignature(sig []byte) bool {
 	return pos == n
 }
 
-// IsValidBERSignature reports whether sig has the structural envelope of a
-// BER-encoded ECDSA signature, as accepted by the lax DER parser used for
+// ECDSASignatureBERFormatCheck reports whether sig has the structural envelope
+// of a BER-encoded ECDSA signature, as accepted by the lax DER parser used for
 // pre-BIP66 Bitcoin transactions. Trailing bytes after S are permitted.
-func IsValidBERSignature(sig []byte) bool {
+func ECDSASignatureBERFormatCheck(sig []byte) bool {
 	n := len(sig)
 	if n < 2 || sig[0] != 0x30 {
 		return false
